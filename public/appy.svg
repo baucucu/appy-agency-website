@@ -1,0 +1,8 @@
+<svg width="200" height="50" xmlns="http://www.w3.org/2000/svg">
+  <!-- Icon: Abstract "A" in a circle -->
+  <circle cx="25" cy="25" r="20" fill="#4CAF50"/>
+  <polygon points="25,10 15,35 35,35" fill="#FFFFFF"/>
+  
+  <!-- Text: "appy.agency" -->
+  <text x="60" y="35" font-family="Arial, sans-serif" font-size="24" fill="#333333">appy.agency</text>
+</svg>
