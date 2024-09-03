@@ -44,7 +44,7 @@ export default function ContactForm() {
     }
 
     return (
-        <section id="contact" className="w-full py-24 md:py-32 bg-gradient-to-r from-purple-500 to-indigo-600 text-white">
+        <section id="contact" className="w-full py-24 md:py-32 hero-gradient text-white">
             < div className="container mx-auto px-4 md:px-6" >
                 <h2 className="text-4xl font-bold tracking-tighter sm:text-5xl text-center mb-12">Contact us</h2>
                 <Card className="w-full max-w-md mx-auto shadow-lg">

@@ -17,15 +17,15 @@ export default function Header() {
 
     return (
         <header className={`sticky top-0 z-50 w-full transition-all duration-300 ease-in-out ${isScrolled
-            ? 'h-12 bg-white/70 dark:bg-gray-900/70 backdrop-blur-md shadow-md'
+            ? 'h-12 bg-white/70 dark:bg-gray-900/70 backdrop-blur-md shadow-lg'
             : 'h-16 bg-white dark:bg-gray-900'
             }`}>
             <div className="container mx-auto px-4 lg:px-6 h-full flex items-center justify-between">
                 <Link className="flex items-center justify-center gap-2" href="#home">
                     <CodeIcon className="h-8 w-8 text-primary" />
-                    <span className={`font-bold transition-all duration-300 ease-in-out ${isScrolled
-                        ? 'text-xl bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-indigo-600'
-                        : 'text-2xl text-black dark:text-white'
+                    <span className={`text-black dark:text-white font-bold transition-all duration-300 ease-in-out ${isScrolled
+                        ? 'text-xl'
+                        : 'text-2xl'
                         }`}>
                         appy.agency
                     </span>

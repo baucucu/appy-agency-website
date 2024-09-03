@@ -92,3 +92,54 @@
 html {
   scroll-behavior: smooth;
 }
+
+.hero-gradient {
+  background: linear-gradient(320deg, #e2872c, #8a2be2);
+  background-size: 200% 200%;
+
+  -webkit-animation: HeroGradient 10s ease infinite;
+  -moz-animation: HeroGradient 10s ease infinite;
+  animation: HeroGradient 10s ease infinite;
+}
+
+@-webkit-keyframes HeroGradient {
+  0% {
+    background-position: 0% 86%
+  }
+
+  50% {
+    background-position: 100% 15%
+  }
+
+  100% {
+    background-position: 0% 86%
+  }
+}
+
+@-moz-keyframes HeroGradient {
+  0% {
+    background-position: 0% 86%
+  }
+
+  50% {
+    background-position: 100% 15%
+  }
+
+  100% {
+    background-position: 0% 86%
+  }
+}
+
+@keyframes HeroGradient {
+  0% {
+    background-position: 0% 86%
+  }
+
+  50% {
+    background-position: 100% 15%
+  }
+
+  100% {
+    background-position: 0% 86%
+  }
+}

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
 export default function Hero() {
     return (
-        <section className="w-full py-24 md:py-32 bg-gradient-to-r from-purple-500 to-indigo-600 text-white">
+        <section className="w-full py-24 md:py-32 hero-gradient text-white">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="flex flex-col items-center space-y-8 text-center">
                     <div className="space-y-4">
@@ -13,7 +13,7 @@ export default function Hero() {
                         </p>
                     </div>
                     <div className="space-x-4">
-                        <Button size="lg" variant="" className="bg-white text-purple-600 hover:bg-purple-100">Get Started</Button>
+                        <Button size="lg" variant="" className="bg-white text-black hover:bg-purple-100">Get Started</Button>
 
                     </div>
                 </div>
