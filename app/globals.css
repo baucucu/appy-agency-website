@@ -143,3 +143,60 @@ html {
     background-position: 0% 86%
   }
 }
+
+.projects-bg {
+  --s: 112px;
+  /* control the size*/
+  --c1: #490a3d;
+  --c2: #f56991;
+
+  --g1: conic-gradient(from -45deg at 60%, #0000 75%, var(--c1) 0);
+  --g2: conic-gradient(from -45deg at 30%, #0000 75%, var(--c2) 0);
+  background:
+    var(--g2) calc(var(--s)/8) 0, var(--g2) calc(5*var(--s)/8) var(--s),
+    var(--g1), var(--g1) calc(var(--s)/2) var(--s) var(--c2);
+  background-size: var(--s) calc(2*var(--s));
+}
+
+.services-bg {
+  --s: 138px;
+  /* control the size*/
+  --c1: #170409;
+  --c2: #67917a;
+
+  --_g: #0000 52%, var(--c1) 54% 57%, #0000 59%;
+  background:
+    radial-gradient(farthest-side at -33.33% 50%, var(--_g)) 0 calc(var(--s)/2),
+    radial-gradient(farthest-side at 50% 133.33%, var(--_g)) calc(var(--s)/2) 0,
+    radial-gradient(farthest-side at 133.33% 50%, var(--_g)),
+    radial-gradient(farthest-side at 50% -33.33%, var(--_g)),
+    var(--c2);
+  background-size: calc(var(--s)/4.667) var(--s), var(--s) calc(var(--s)/4.667);
+}
+
+.bricks-bg {
+  --s: 33px;
+  /* control the size*/
+  --c1: #d3643b;
+  --c2: #333333;
+
+  --c: var(--c2) 20% 30%;
+  background:
+    linear-gradient(135deg, #0000 20%, var(--c), #0000 0),
+    repeating-linear-gradient(45deg, var(--c), var(--c1) 0 70%);
+  background-size: var(--s) var(--s);
+}
+
+.hearts-bg {
+  --s: 57px;
+  /* control the size*/
+  --c1: #e7525b;
+  --c2: #78dbf0;
+
+  --_g: 80%, var(--c1) 25.4%, #0000 26%;
+  background:
+    radial-gradient(at 80% var(--_g)),
+    radial-gradient(at 20% var(--_g)),
+    conic-gradient(from -45deg at 50% 41%, var(--c1) 90deg, var(--c2) 0) calc(var(--s)/2) 0;
+  background-size: var(--s) var(--s);
+}

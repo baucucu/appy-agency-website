@@ -61,6 +61,8 @@ export default function Projects() {
         }
     }
 
+    const backgroundUrl = "https://loading.io/asset/755511"
+
     return (
         <section id="projects" className="w-full py-24 md:py-32 bg-gray-100 dark:bg-gray-800">
             <div className="container mx-auto px-4 md:px-6">

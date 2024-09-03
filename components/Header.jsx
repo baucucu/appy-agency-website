@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import Link from "next/link"
 import { CodeIcon } from 'lucide-react'
+import { ModeToggle } from './ModeToggle';
 
 export default function Header() {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -30,17 +31,20 @@ export default function Header() {
                         appy.agency
                     </span>
                 </Link>
-                <nav className="flex gap-6">
-                    <Link className="text-sm font-medium text-gray-600 hover:text-primary transition-colors dark:text-gray-300 dark:hover:text-primary" href="#services">
-                        Services
-                    </Link>
-                    <Link className="text-sm font-medium text-gray-600 hover:text-primary transition-colors dark:text-gray-300 dark:hover:text-primary" href="#projects">
-                        Projects
-                    </Link>
-                    <Link className="text-sm font-medium text-gray-600 hover:text-primary transition-colors dark:text-gray-300 dark:hover:text-primary" href="#contact">
-                        Contact
-                    </Link>
-                </nav>
+                <div className='flex flex-row items-center justify-center gap-6'>
+                    <nav className="flex gap-6">
+                        <Link className="text-sm font-medium text-gray-600 hover:text-primary transition-colors dark:text-gray-300 dark:hover:text-primary" href="#services">
+                            Services
+                        </Link>
+                        <Link className="text-sm font-medium text-gray-600 hover:text-primary transition-colors dark:text-gray-300 dark:hover:text-primary" href="#projects">
+                            Projects
+                        </Link>
+                        <Link className="text-sm font-medium text-gray-600 hover:text-primary transition-colors dark:text-gray-300 dark:hover:text-primary" href="#contact">
+                            Contact
+                        </Link>
+                    </nav>
+                    <ModeToggle />
+                </div>
             </div>
         </header>
     )
