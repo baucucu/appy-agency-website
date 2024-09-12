@@ -26,7 +26,7 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          IMAGE_TAG="${GITHUB_SHA::7}"
+          IMAGE_TAG=$(echo "${{ github.sha }}" | head -c7)
           echo "Building image: $DOCKER_USERNAME/appy-agency-website:$IMAGE_TAG"
           docker build -t "$DOCKER_USERNAME/appy-agency-website:$IMAGE_TAG" .
           echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
@@ -38,7 +38,7 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
-          IMAGE_TAG="${GITHUB_SHA::7}"
+          IMAGE_TAG=$(echo "${{ github.sha }}" | head -c7)
           echo "$SSH_PRIVATE_KEY" > deploy_key
           chmod 600 deploy_key
           ssh -i deploy_key -o StrictHostKeyChecking=no $USERNAME@$HOST "
