@@ -15,14 +15,21 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Debug environment
+        run: |
+          echo "GITHUB_SHA: ${{ github.sha }}"
+          echo "DOCKER_USERNAME is set: ${{ secrets.DOCKER_USERNAME != '' }}"
+          echo "DOCKER_PASSWORD is set: ${{ secrets.DOCKER_PASSWORD != '' }}"
+
       - name: Build and push Docker image
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          docker build -t $DOCKER_USERNAME/appy-agency-website:${GITHUB_SHA::7} .
-          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-          docker push $DOCKER_USERNAME/appy-agency-website:${GITHUB_SHA::7}
+          echo "Building image: $DOCKER_USERNAME/appy-agency-website:${GITHUB_SHA::7}"
+          docker build -t "$DOCKER_USERNAME/appy-agency-website:${GITHUB_SHA::7}" .
+          echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+          docker push "$DOCKER_USERNAME/appy-agency-website:${GITHUB_SHA::7}"
 
       - name: Deploy to VPS
         env:
