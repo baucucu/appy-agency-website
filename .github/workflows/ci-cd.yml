@@ -20,9 +20,9 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          docker build -t $DOCKER_USERNAME/appy-agency-website:${{ github.sha }} .
+          docker build -t $DOCKER_USERNAME/appy-agency-website:${GITHUB_SHA::7} .
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-          docker push $DOCKER_USERNAME/appy-agency-website:${{ github.sha }}
+          docker push $DOCKER_USERNAME/appy-agency-website:${GITHUB_SHA::7}
 
       - name: Deploy to VPS
         env:
