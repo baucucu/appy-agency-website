@@ -26,10 +26,11 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          echo "Building image: $DOCKER_USERNAME/appy-agency-website:${GITHUB_SHA::7}"
-          docker build -t "$DOCKER_USERNAME/appy-agency-website:${GITHUB_SHA::7}" .
+          IMAGE_TAG="${GITHUB_SHA::7}"
+          echo "Building image: $DOCKER_USERNAME/appy-agency-website:$IMAGE_TAG"
+          docker build -t "$DOCKER_USERNAME/appy-agency-website:$IMAGE_TAG" .
           echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-          docker push "$DOCKER_USERNAME/appy-agency-website:${GITHUB_SHA::7}"
+          docker push "$DOCKER_USERNAME/appy-agency-website:$IMAGE_TAG"
 
       - name: Deploy to VPS
         env:
@@ -37,14 +38,15 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
+          IMAGE_TAG="${GITHUB_SHA::7}"
           echo "$SSH_PRIVATE_KEY" > deploy_key
           chmod 600 deploy_key
           ssh -i deploy_key -o StrictHostKeyChecking=no $USERNAME@$HOST "
-            docker pull $DOCKER_USERNAME/appy-agency-website:${{ github.sha }}
+            docker pull $DOCKER_USERNAME/appy-agency-website:$IMAGE_TAG
             docker stop nextjs-app || true
             docker rm nextjs-app || true
-            docker run -d --name nextjs-app -p 3000:3000 $DOCKER_USERNAME/appy-agency-website:${{ github.sha }}
+            docker run -d --name nextjs-app -p 3000:3000 $DOCKER_USERNAME/appy-agency-website:$IMAGE_TAG
           "
 
       - name: Clean up
-        run: rm -rf deploy_key
+        run: shred -u deploy_key
