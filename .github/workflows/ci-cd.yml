@@ -38,3 +38,6 @@ jobs:
             docker rm nextjs-app || true
             docker run -d --name nextjs-app -p 3000:3000 $DOCKER_USERNAME/appy-agency-website:${{ github.sha }}
           "
+
+      - name: Clean up
+        run: rm -rf deploy_key
