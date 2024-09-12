@@ -20,9 +20,9 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          docker build -t $DOCKER_USERNAME/your-app-name:${{ github.sha }} .
+          docker build -t $DOCKER_USERNAME/appy-agency-website:${{ github.sha }} .
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-          docker push $DOCKER_USERNAME/your-app-name:${{ github.sha }}
+          docker push $DOCKER_USERNAME/appy-agency-website:${{ github.sha }}
 
       - name: Deploy to VPS
         env:
@@ -33,8 +33,8 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > deploy_key
           chmod 600 deploy_key
           ssh -i deploy_key -o StrictHostKeyChecking=no $USERNAME@$HOST "
-            docker pull $DOCKER_USERNAME/your-app-name:${{ github.sha }}
+            docker pull $DOCKER_USERNAME/appy-agency-website:${{ github.sha }}
             docker stop nextjs-app || true
             docker rm nextjs-app || true
-            docker run -d --name nextjs-app -p 3000:3000 $DOCKER_USERNAME/your-app-name:${{ github.sha }}
+            docker run -d --name nextjs-app -p 3000:3000 $DOCKER_USERNAME/appy-agency-website:${{ github.sha }}
           "
