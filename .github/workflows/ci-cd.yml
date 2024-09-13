@@ -76,7 +76,7 @@ jobs:
         env:
           SSH_HOST: ${{ secrets.HOST }}
           SSH_USER: ${{ secrets.USERNAME }}
-          SSH_PRIVATE_KEY: ${{ secrets.YOUR_PRIVATE_KEY_SECRET_NAME }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       # Clean up the SSH key after deployment
       - name: Clean up
         run: shred -u deploy_key
