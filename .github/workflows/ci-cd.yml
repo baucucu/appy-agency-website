@@ -8,6 +8,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    environment: Production
 
     steps:
       # Checkout the repository
@@ -35,6 +36,9 @@ jobs:
             exit 1
           fi
           echo "Docker Hub credentials are set"
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
 
       # Log in to Docker Hub using env for DOCKER credentials
       - name: Login to Docker Hub
