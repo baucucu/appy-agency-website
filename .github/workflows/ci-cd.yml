@@ -70,9 +70,11 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         run: |
           IMAGE_TAG=$(echo "${{ github.sha }}" | head -c7)
-          echo "$SSH_PRIVATE_KEY" > deploy_key
+          cat <<EOF > deploy_key
+          $SSH_PRIVATE_KEY
+          EOF
           chmod 600 deploy_key
-          ssh -i deploy_key -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "
+          ssh -v -i deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $SSH_USER@$SSH_HOST "
             docker pull $DOCKER_USERNAME/appy-agency-website:$IMAGE_TAG
             docker stop nextjs-app || true
             docker rm nextjs-app || true
