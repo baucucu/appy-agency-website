@@ -73,6 +73,10 @@ jobs:
             docker rm nextjs-app || true
             docker run -d --name nextjs-app -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/appy-agency-website:$IMAGE_TAG
           "
+        env:
+          SSH_HOST: ${{ secrets.HOST }}
+          SSH_USER: ${{ secrets.USERNAME }}
+          SSH_PRIVATE_KEY: ${{ secrets.YOUR_PRIVATE_KEY_SECRET_NAME }}
       # Clean up the SSH key after deployment
       - name: Clean up
         run: shred -u deploy_key
