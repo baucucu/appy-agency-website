@@ -75,9 +75,9 @@ jobs:
           chmod 600 deploy_key
           ssh -v -i deploy_key -o StrictHostKeyChecking=no -o IdentitiesOnly=yes $SSH_USER@$SSH_HOST "
             docker pull ${{ secrets.DOCKER_USERNAME }}/appy-agency-website:$IMAGE_TAG
-            docker stop $(docker ps -q --filter publish=3000) || true
-            docker rm $(docker ps -aq --filter publish=3000) || true
-            docker run -d --name appy-agency-website-$IMAGE_TAG -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/appy-agency-website:$IMAGE_TAG
+            docker stop appy-agency-website || true
+            docker rm appy-agency-website || true
+            docker run -d --name appy-agency-website -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/appy-agency-website:$IMAGE_TAG
           "
       # Clean up the SSH key after deployment
       - name: Clean up
