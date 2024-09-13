@@ -61,20 +61,24 @@ jobs:
           docker build -t "${{ secrets.DOCKER_USERNAME }}/appy-agency-website:$IMAGE_TAG" .
           docker push "${{ secrets.DOCKER_USERNAME }}/appy-agency-website:$IMAGE_TAG"
 
+      - name: Setup SSH Agent
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY_PASSPHRASE }}"
+          ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
+
       # Deploy to VPS via SSH using Docker image
       - name: Deploy to VPS
         env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
           SSH_HOST: ${{ secrets.HOST }}
           SSH_USER: ${{ secrets.USERNAME }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         run: |
-          IMAGE_TAG=$(echo "${{ github.sha }}" | head -c7)
-          cat <<EOF > deploy_key
-          $SSH_PRIVATE_KEY
-          EOF
-          chmod 600 deploy_key
-          ssh -v -i deploy_key -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $SSH_USER@$SSH_HOST "
+          ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "
             docker pull $DOCKER_USERNAME/appy-agency-website:$IMAGE_TAG
             docker stop nextjs-app || true
             docker rm nextjs-app || true
