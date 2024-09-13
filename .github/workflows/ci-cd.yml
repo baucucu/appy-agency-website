@@ -61,29 +61,23 @@ jobs:
           docker build -t "${{ secrets.DOCKER_USERNAME }}/appy-agency-website:$IMAGE_TAG" .
           docker push "${{ secrets.DOCKER_USERNAME }}/appy-agency-website:$IMAGE_TAG"
 
-      - name: Setup SSH Agent
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: |
-          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" | ssh-add -
-
       # Deploy to VPS via SSH using Docker image
       - name: Deploy to VPS
         env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
           SSH_HOST: ${{ secrets.HOST }}
           SSH_USER: ${{ secrets.USERNAME }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         run: |
           IMAGE_TAG=$(echo "${{ github.sha }}" | head -c7)
-          ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "
+          echo "$SSH_PRIVATE_KEY" > deploy_key
+          chmod 600 deploy_key
+          ssh -v -i deploy_key -o StrictHostKeyChecking=no -o IdentitiesOnly=yes $SSH_USER@$SSH_HOST "
             docker pull $DOCKER_USERNAME/appy-agency-website:$IMAGE_TAG
             docker stop nextjs-app || true
             docker rm nextjs-app || true
             docker run -d --name nextjs-app -p 3000:3000 $DOCKER_USERNAME/appy-agency-website:$IMAGE_TAG
           "
-
       # Clean up the SSH key after deployment
       - name: Clean up
         run: shred -u deploy_key
