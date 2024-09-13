@@ -13,11 +13,14 @@ RUN npm ci
 # Copy the rest of the application code
 COPY . .
 
+# Create a directory for SSL certificates
+RUN mkdir -p /app/ssl
+
 # Build the Next.js app
 RUN npm run build
 
-# Expose the port the app runs on
-EXPOSE 3000
+# Expose the HTTPS port
+EXPOSE 443
 
-# Start the app
-CMD ["npm", "start"]
+# Start the app with the custom HTTPS server
+CMD ["node", "server.js"]

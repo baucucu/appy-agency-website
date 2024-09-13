@@ -62,7 +62,6 @@ jobs:
           docker tag "appy-agency-website:$IMAGE_TAG" "${{ secrets.DOCKER_USERNAME }}/appy-agency-website:$IMAGE_TAG"
           docker push "${{ secrets.DOCKER_USERNAME }}/appy-agency-website:$IMAGE_TAG"
 
-      # Deploy to VPS via SSH using Docker image
       - name: Deploy to VPS
         env:
           SSH_HOST: ${{ secrets.HOST }}
@@ -74,10 +73,25 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > deploy_key
           chmod 600 deploy_key
           ssh -v -i deploy_key -o StrictHostKeyChecking=no -o IdentitiesOnly=yes $SSH_USER@$SSH_HOST "
+            # Pull the new image
             docker pull ${{ secrets.DOCKER_USERNAME }}/appy-agency-website:$IMAGE_TAG
+
+            # Stop and remove the current container
             docker stop appy-agency-website || true
             docker rm appy-agency-website || true
-            docker run -d --name appy-agency-website -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/appy-agency-website:$IMAGE_TAG
+
+            # Remove old images
+            docker images | grep '${{ secrets.DOCKER_USERNAME }}/appy-agency-website' | grep -v '$IMAGE_TAG' | awk '{print \$3}' | xargs -r docker rmi
+
+            # Run the new container
+            docker run -d --name appy-agency-website \
+              -p 443:443 \
+              -v /etc/letsencrypt/live/appy.agency/fullchain.pem:/app/ssl/fullchain.pem:ro \
+              -v /etc/letsencrypt/live/appy.agency/privkey.pem:/app/ssl/privkey.pem:ro \
+              ${{ secrets.DOCKER_USERNAME }}/appy-agency-website:$IMAGE_TAG
+
+            # Remove dangling images
+            docker image prune -f
           "
       # Clean up the SSH key after deployment
       - name: Clean up
