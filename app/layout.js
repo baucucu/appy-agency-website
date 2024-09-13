@@ -10,7 +10,7 @@ export const metadata = {
   title: "appy.agency",
   description: "appy.agency website",
 };
-
+// TODO:
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
