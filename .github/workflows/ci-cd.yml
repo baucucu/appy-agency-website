@@ -85,7 +85,7 @@ jobs:
 
             # Run the new container
             docker run -d --name appy-agency-website \
-              --restart unless-stopped
+              --restart unless-stopped \
               -p 3000:3000 \
               -v /etc/letsencrypt/live/appy.agency/fullchain.pem:/app/ssl/fullchain.pem:ro \
               -v /etc/letsencrypt/live/appy.agency/privkey.pem:/app/ssl/privkey.pem:ro \
@@ -94,6 +94,7 @@ jobs:
             # Remove dangling images
             docker image prune -f
           "
+
       # Clean up the SSH key after deployment
       - name: Clean up
         run: shred -u deploy_key
